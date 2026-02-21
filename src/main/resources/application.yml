@@ -15,21 +15,20 @@ spring:
   application:
     name: devtoolkit-api
   profiles:
-    active: dev
+    active: ${PROFILE}
 
   # Spring AI - OpenAI Config
   ai:
 #    openai:
-#      #api-key: ${OPENAI_API_KEY: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}
-#      #api-key: ${OPENAI_API_KEY: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}
-#      api-key: ${GEMINI_API_KEY:AIzaSyBgSyyELnhJrjLvVYm-g74yimzM8liDvp8}
+#      #api-key: ${OPENAI_API_KEY:}
+#      #api-key: ${OPENAI_API_KEY:}
 #      chat:
 #        options:
 #          model: gpt-4o      # Rapide + pas cher pour les outils
 #          temperature: 0.3        # Réponses précises et déterministes
 #          max-tokens: 1000
     google.genai:
-      api-key: ${GEMINI_API_KEY:AIzaSyBgSyyELnhJrjLvVYm-g74yimzM8liDvp8}
+      api-key: ${GEMINI_API_KEY}
       chat:
         options:
           #model: gemini-2.5-flash      # Rapide + pas cher pour les outils
