@@ -1,0 +1,80 @@
+server:
+  port: 8081
+  shutdown: graceful
+  compression:
+    enabled: true
+    mime-types: application/json,application/xml,text/html,text/xml,text/plain
+    tomcat:
+      max-threads: 100
+      min-spare-threads: 5
+spring:
+  autoconfigure:
+    exclude:
+      - org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration
+      - org.springframework.boot.autoconfigure.data.redis.RedisRepositoriesAutoConfiguration
+  application:
+    name: devtoolkit-api
+  profiles:
+    active: dev
+
+  # Spring AI - OpenAI Config
+  ai:
+#    openai:
+#      #api-key: ${OPENAI_API_KEY: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}
+#      #api-key: ${OPENAI_API_KEY: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}
+#      api-key: ${GEMINI_API_KEY:AIzaSyBgSyyELnhJrjLvVYm-g74yimzM8liDvp8}
+#      chat:
+#        options:
+#          model: gpt-4o      # Rapide + pas cher pour les outils
+#          temperature: 0.3        # Réponses précises et déterministes
+#          max-tokens: 1000
+    google.genai:
+      api-key: ${GEMINI_API_KEY:AIzaSyBgSyyELnhJrjLvVYm-g74yimzM8liDvp8}
+      chat:
+        options:
+          #model: gemini-2.5-flash      # Rapide + pas cher pour les outils
+          model: gemini-3-flash-preview      # Rapide + pas cher pour les outils
+          temperature: 0.1        # Réponses précises et déterministes
+          max-tokens: 3000
+
+gemini:
+  models:
+    - gemini-3-flash-preview
+    - gemini-2.5-flash-preview
+    - gemini-2.5-flash
+    - gemini-2.0-flash
+    - gemini-2.0-flash-preview
+    - gemini-2.5-flash-lite
+    - gemini-2.5-flash-lite-preview
+
+  # Cache Redis (optionnel en dev, activer en prod)
+  data:
+    redis:
+      enabled: false
+      host: ${REDIS_HOST:localhost}
+      port: ${REDIS_PORT:6379}
+      repositories:
+        enabled: false
+      ssl:
+        enabled: false
+
+  cache:
+    type: simple
+    redis:
+      time-to-live: 3600000       # 1 heure en ms
+
+  # CORS pour Angular
+  mvc:
+    cors:
+      allowed-origins: ${FRONTEND_URL:http://localhost:4200}
+
+logging:
+  level:
+    com.devtoolkit: DEBUG
+    org.springframework.ai: DEBUG
+
+# Limites de requêtes (à affiner avec un rate limiter en prod)
+devtoolkit:
+  ai:
+    max-input-length: 5000        # Caractères max envoyés à l'IA
+    requests-per-minute: 60       # Par IP (implémenté via filtre)
