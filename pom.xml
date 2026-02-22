@@ -41,6 +41,12 @@
             <optional>true</optional>
         </dependency>
 
+
+        <!-- Cache Caffeine — cache mémoire  (pas besoin de Redis) -->
+        <dependency>
+            <groupId>com.github.ben-manes.caffeine</groupId>
+            <artifactId>caffeine</artifactId>
+        </dependency>
         <!-- Spring AI - OpenAI -->
 <!--        <dependency>-->
 <!--            <groupId>org.springframework.ai</groupId>-->

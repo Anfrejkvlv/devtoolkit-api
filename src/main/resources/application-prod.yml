@@ -1,5 +1,5 @@
 server:
-  port: ${PORT}
+  port: ${PORT:8080}
   shutdown: graceful
   compression:
     enabled: true
@@ -8,10 +8,6 @@ server:
     max-threads: 100
     min-spare-threads: 5
 spring:
-  autoconfigure:
-    exclude:
-      - org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration
-      - org.springframework.boot.autoconfigure.data.redis.RedisRepositoriesAutoConfiguration
   application:
     name: devtoolkit-api
   profiles:
@@ -29,7 +25,7 @@ spring:
     #          temperature: 0.3        # Réponses précises et déterministes
     #          max-tokens: 1000
     google.genai:
-      api-key: ${GEMINI_API_KEY:AIzaSyBgSyyELnhJrjLvVYm-g74yimzM8liDvp8}
+      api-key: ${GEMINI_API_KEY}
       chat:
         options:
           model: gemini-3-flash-preview      # Rapide + pas cher pour les outils
@@ -55,8 +51,6 @@ gemini:
       port: ${REDIS_PORT}
       password: ${REDIS_PASSWORD}
       timeout: 5000
-
-      #url: ${REDIS_URL}
       connect-timeout: 5000
 
   cache:
