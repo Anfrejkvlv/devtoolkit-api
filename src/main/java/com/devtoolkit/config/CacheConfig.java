@@ -49,7 +49,7 @@ public class CacheConfig {
                     .recordStats()
             );
             manager.setCacheNames(List.of(
-                "jwt-decode", "jwt-explain",
+                "jwt-decode","jwt-ai-explain",
                 "cron-generate", "cron-explain",
                 "sql-optimize", "sql-explain",
                 "spring-props-generate", "spring-props-review"
