@@ -46,7 +46,7 @@ public class SwaggerConfig {
                                 .url("http://localhost:"+port)
                                 .description("Serveur de développement"),
                         new Server()
-                        .url("http://backend-api.app")
+                        .url("https://devtoolkitai.koyeb.app")
                         .description("Serveur de production")
                 ));
     }

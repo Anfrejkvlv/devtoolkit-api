@@ -33,10 +33,11 @@ public class AppConfig implements WebMvcConfigurer {
      */
     @Override
     public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/api/**")
-            .allowedOrigins("http://localhost:4200", "https://devtoolkit.ai")
-            .allowedMethods("GET", "POST", "OPTIONS")
-            .allowedHeaders("*")
-            .maxAge(3600);
+        registry.addMapping("/**")
+            .allowedOrigins("http://localhost:4200", "https://devtoolkitai.netlify.app","https://devtoolkitai.koyeb.app")
+                .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
+                .allowedHeaders("*")
+                .allowCredentials(true)
+                .maxAge(3600);
     }
 }
