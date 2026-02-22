@@ -8,11 +8,6 @@ server:
     max-threads: 100
     min-spare-threads: 5
 spring:
-  application:
-    name: devtoolkit-api
-  profiles:
-    active: ${PROFILE}
-
   # Spring AI -  Config
   ai:
     #    openai:
