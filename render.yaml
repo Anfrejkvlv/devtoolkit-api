@@ -1,0 +1,66 @@
+# ═══════════════════════════════════════════════════════════════
+# render.yaml — Configuration Render.com (IaC)
+# Déploiement automatique via GitHub + Render Blueprint
+#
+# Usage :
+#   1. Connecter le repo GitHub à Render
+#   2. Render détecte ce fichier et crée les services automatiquement
+#   3. Ajouter OPENAI_API_KEY manuellement dans le dashboard Render
+#      (variables sensibles ne doivent jamais être dans ce fichier)
+# ═══════════════════════════════════════════════════════════════
+
+services:
+
+  # ── Backend Spring Boot ──────────────────────────────────────
+  - type: web
+    name: devtoolkit-api
+    runtime: docker                       # Render utilise notre Dockerfile
+    dockerfilePath: ./backend/Dockerfile  # Chemin depuis la racine du repo
+    dockerContext: ./backend              # Contexte Docker = dossier backend
+
+    # Plan : free (512 MB RAM, 0.1 CPU, spin-down après 15 min d'inactivité)
+    # Passer à "starter" (7 USD/mois) pour supprimer le spin-down
+    plan: free
+
+    region: frankfurt                     # EU pour la latence Europe
+
+    # Variables d'environnement non-sensibles (OK dans ce fichier)
+    envVars:
+      - key: PORT
+        value: 8080
+      - key: JAVA_OPTS
+        value: >-
+          -XX:+UseContainerSupport
+          -XX:MaxRAMPercentage=75.0
+          -XX:+UseSerialGC
+          -Djava.security.egd=file:/dev/./urandom
+          -Dspring.profiles.active=prod
+      - key: CACHE_TYPE
+        value: redis
+      - key: FRONTEND_URL
+        value: "https://devtoolkipai.netlify.app"
+
+      # Variables SENSIBLES — à définir dans le dashboard Render (jamais ici)
+      - key: GEMINI_API_KEY
+        sync: false                       # sync: false = à saisir manuellement
+
+      # Relier au service Redis créé ci-dessous
+      - key: REDIS_URL
+        fromService:
+          type: redis
+          name: devtoolkit-redis
+          property: connectionString      # Render injecte l'URL Upstash automatiquement
+
+    # Health check — Render redémarre si /actuator/health renvoie != 200
+    healthCheckPath: /actuator/health
+
+    # Déploiement automatique à chaque push sur main
+    autoDeploy: true
+
+  # ── Redis Cache ──────────────────────────────────────────────
+  - type: redis
+    name: devtoolkit-redis
+    plan: free                            # 25 MB, suffisant pour le cache IA
+    region: frankfurt
+    maxmemoryPolicy: allkeys-lru          # Eviction LRU quand la mémoire est pleine
+    ipAllowList: []                       # [] = accessible uniquement depuis Render (sécurisé)

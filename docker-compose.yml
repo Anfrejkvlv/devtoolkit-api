@@ -1,0 +1,69 @@
+# ═══════════════════════════════════════════════════════════════
+# docker-compose.yml — Test local de la config Docker
+# Simule l'environnement Render avant de déployer.
+#
+# Usage :
+#   export OPENAI_API_KEY=sk-...
+#   docker-compose up --build
+#   → API sur http://localhost:8080
+#   → Redis sur localhost:6379
+# ═══════════════════════════════════════════════════════════════
+
+version: '3.9'
+
+services:
+
+  # ── Backend Spring Boot ──────────────────────────────────────
+  api:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: devtoolkit-api
+    ports:
+      - "8080:8080"
+    environment:
+      - PORT=8080
+      - OPENAI_API_KEY=${OPENAI_API_KEY}     # Depuis le shell local
+      - REDIS_HOST=redis                      # Nom du service Docker
+      - REDIS_PORT=6379
+      - CACHE_TYPE=redis
+      - CORS_ALLOWED_ORIGINS=http://localhost:4200
+      - JAVA_OPTS=-XX:+UseContainerSupport -XX:MaxRAMPercentage=75.0 -XX:+UseSerialGC -Dspring.profiles.active=prod
+    depends_on:
+      redis:
+        condition: service_healthy
+    restart: unless-stopped
+    networks:
+      - devtoolkit-net
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:8080/actuator/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s                       # Laisser Spring Boot démarrer
+
+  # ── Redis ────────────────────────────────────────────────────
+  redis:
+    image: redis:7-alpine
+    container_name: devtoolkit-redis
+    ports:
+      - "6379:6379"
+    command: redis-server --maxmemory 50mb --maxmemory-policy allkeys-lru
+    volumes:
+      - redis-data:/data
+    networks:
+      - devtoolkit-net
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+volumes:
+  redis-data:
+    driver: local
+
+networks:
+  devtoolkit-net:
+    driver: bridge
