@@ -15,7 +15,7 @@ spring:
   application:
     name: devtoolkit-api
   profiles:
-    active: ${SPRING_PROFILES_ACTIVE}
+    active: ${SPRING_PROFILES_ACTIVE:dev}
 
   # Spring AI - OpenAI Config
   ai:
