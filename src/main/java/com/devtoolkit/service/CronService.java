@@ -54,11 +54,11 @@ public class CronService {
 //                .user(prompt)
 //                .call()
 //                .content();
-            String aiResponse=executor.execute(chatClient->
+            String aiResponse=executor.executeForText(chatClient->
                     chatClient.prompt()
                             .user(prompt)
                             .call()
-                            .content());
+                            .chatResponse());
 
             Map<String, Object> result = parseJsonResponse(aiResponse);
             return ToolResponse.okWithAI(result);
@@ -89,11 +89,11 @@ public class CronService {
                 """.formatted(expression);
 
 //            String aiResponse = chatClient.prompt().user(prompt).call().content();
-                String aiResponse=executor.execute(chatClient->
-                        chatClient.prompt()
-                                .user(prompt)
-                                .call()
-                                .content());
+            String aiResponse=executor.executeForText(chatClient->
+                    chatClient.prompt()
+                            .user(prompt)
+                            .call()
+                            .chatResponse());
             return ToolResponse.okWithAI(parseJsonResponse(aiResponse));
 
         } catch (Exception e) {

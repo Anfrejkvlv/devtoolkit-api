@@ -93,11 +93,11 @@ public class SqlService {
 //                .user(prompt)
 //                .call()
 //                .content();
-            String aiResponse=executor.execute(chatClient->
+            String aiResponse=executor.executeForText(chatClient->
                     chatClient.prompt()
                             .user(prompt)
                             .call()
-                            .content());
+                            .chatResponse());
 
             return ToolResponse.okWithAI(parseJson(aiResponse));
 
@@ -128,11 +128,11 @@ public class SqlService {
                 """.formatted(sql);
 
 //            String aiResponse = chatClient.prompt().user(prompt).call().content();
-            String aiResponse=executor.execute(chatClient->
+            String aiResponse=executor.executeForText(chatClient->
                     chatClient.prompt()
                             .user(prompt)
                             .call()
-                            .content());
+                            .chatResponse());
             return ToolResponse.okWithAI(parseJson(aiResponse));
 
         } catch (Exception e) {

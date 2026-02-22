@@ -73,15 +73,16 @@ public class SpringPropsService {
 //                .call()
 //                .content();
 
-            String aiResponse=executor.execute(chatClient->
+            String aiResponse=executor.executeForText(chatClient->
                     chatClient.prompt()
                             .user(prompt)
                             .call()
-                            .content());
+                            .chatResponse());
 
             log.info("AI RESPONSE: {}", aiResponse);
-
-            return ToolResponse.okWithAI(parseJson(aiResponse));
+            ToolResponse<Map<String,Object>> response=ToolResponse.okWithAI(parseJson(aiResponse));
+            log.info("GENERATE RESPONSE",response);
+            return response;
 
         } catch (Exception e) {
             log.error("Erreur génération Spring Props IA : {}", e.getMessage());
@@ -123,11 +124,11 @@ public class SpringPropsService {
                 """.formatted(yaml);
 
             //String aiResponse = chatClient.prompt().user(prompt).call().content();
-            String aiResponse=executor.execute(chatClient->
+            String aiResponse=executor.executeForText(chatClient->
                     chatClient.prompt()
                             .user(prompt)
                             .call()
-                            .content());
+                            .chatResponse());
             return ToolResponse.okWithAI(parseJson(aiResponse));
 
         } catch (Exception e) {

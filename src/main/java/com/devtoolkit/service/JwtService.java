@@ -60,11 +60,11 @@ public class JwtService {
 //                .user(prompt)
 //                .call()
 //                .content();
-            String aiResponse=executor.execute(chatClient->
+            String aiResponse=executor.executeForText(chatClient->
                     chatClient.prompt()
                             .user(prompt)
                             .call()
-                            .content());
+                            .chatResponse());
             log.info(aiResponse);
             // Parse la réponse JSON de l'IA
             Map<String, Object> aiData = parseJsonResponse(aiResponse);

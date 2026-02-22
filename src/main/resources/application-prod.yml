@@ -10,15 +10,14 @@ server:
 spring:
   # Spring AI -  Config
   ai:
-    #    openai:
-    #      #api-key: ${OPENAI_API_KEY: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}
-    #      #api-key: ${OPENAI_API_KEY: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}
-    #      api-key: ${GEMINI_API_KEY:AIzaSyBgSyyELnhJrjLvVYm-g74yimzM8liDvp8}
-    #      chat:
-    #        options:
-    #          model: gpt-4o      # Rapide + pas cher pour les outils
-    #          temperature: 0.3        # Réponses précises et déterministes
-    #          max-tokens: 1000
+    openai:
+      api-key: ${GROQ_API_KEY}
+      base-url: https://api.groq.com/openai
+      chat:
+        options:
+          model: llama-3.3-70b-versatile      # Rapide + pas cher pour les outils
+          temperature: 0.1        # Réponses précises et déterministes
+          max-tokens: 3000
     google.genai:
       api-key: ${GEMINI_API_KEY}
       chat:
@@ -30,12 +29,17 @@ spring:
 gemini:
   models:
     - gemini-3-flash-preview
-    - gemini-2.5-flash-preview
     - gemini-2.5-flash
     - gemini-2.0-flash
-    - gemini-2.0-flash-preview
     - gemini-2.5-flash-lite
-    - gemini-2.5-flash-lite-preview
+    - gemini-3.1-pro-preview
+    - gemini-2.5-pro
+groq:
+  models:
+    - llama-3.3-70b-versatile
+    - llama-3.1-70b-versatile
+    - mixtral-8x7b-32768
+    - gemma2-9b-it
 
   # Cache Redis (optionnel en dev, activer en prod)
   data:

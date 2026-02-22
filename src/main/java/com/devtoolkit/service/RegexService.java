@@ -88,11 +88,11 @@ public class RegexService {
 //                .user(prompt)
 //                .call()
 //                .content();
-            String aiResponse=executor.execute(chatClient->
+            String aiResponse=executor.executeForText(chatClient->
                     chatClient.prompt()
                             .user(prompt)
                             .call()
-                            .content());
+                            .chatResponse());
 
             Map<String, Object> result = parseJsonResponse(aiResponse);
             return ToolResponse.okWithAI(result);

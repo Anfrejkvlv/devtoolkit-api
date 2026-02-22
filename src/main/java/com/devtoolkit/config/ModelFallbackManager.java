@@ -1,6 +1,7 @@
 package com.devtoolkit.config;
 
 import com.devtoolkit.exception.NoAvailableModelException;
+import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
@@ -16,6 +17,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class ModelFallbackManager {
 
     private final List<String> models;
+    @Getter
     private final Map<String, Instant> exhaustedModels= new ConcurrentHashMap<>();
 
     // Durée avant de réessayer un autre model
@@ -92,7 +94,4 @@ public class ModelFallbackManager {
         return false;
     }
 
-    public Map<String,Instant> getExhaustedModels() {
-        return exhaustedModels;
-    }
 }

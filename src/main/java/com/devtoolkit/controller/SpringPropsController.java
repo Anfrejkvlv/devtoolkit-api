@@ -42,9 +42,7 @@ public class SpringPropsController {
             return ResponseEntity.badRequest()
                 .body(ToolResponse.error("Le champ 'description' est requis"));
         }
-        log.info("ENTRY: {}", description,profile,technologies);
         ToolResponse<Map<String,Object>> response=springPropsService.generate(description, profile, technologies);
-        log.info("GENERATE RESPONSE",response);
         return ResponseEntity.ok(response);
     }
 
