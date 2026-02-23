@@ -8,6 +8,9 @@ server:
     max-threads: 100
     min-spare-threads: 5
 spring:
+  task:
+    scheduling:
+      enabled: true
   # Spring AI -  Config
   ai:
     openai:
@@ -65,10 +68,9 @@ groq:
 # Logs production (format JSON pour centralisation)
 logging:
   level:
-    com.devtoolkit: warn
-    org.springframework.ai: warn
+    org.springframework.ai: INFO
     root: INFO
-    com.logement.etudiants: INFO
+    com.devtoolkit: INFO
     org.springframework: WARN
   pattern:
     console: '{"timestamp":"%d{ISO8601}","level":"%level","thread":"%thread","logger":"%logger","message":"%message"}%n'
@@ -86,3 +88,6 @@ devtoolkit:
   ai:
     max-input-length: 5000        # Caractères max envoyés à l'IA
     requests-per-minute: 60       # Par IP (implémenté via filtre)
+
+app:
+  api-url: ${API_URL}
