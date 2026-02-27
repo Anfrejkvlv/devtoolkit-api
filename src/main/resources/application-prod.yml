@@ -11,6 +11,21 @@ spring:
   task:
     scheduling:
       enabled: true
+  # Cache Redis (optionnel en dev, activer en prod)
+  data:
+    redis:
+      ssl:
+        enabled: true
+      host: ${REDIS_HOST}
+      port: ${REDIS_PORT}
+      password: ${REDIS_PASSWORD}
+      timeout: 5000
+      connect-timeout: 5000
+
+  cache:
+    type: redis
+    redis:
+      time-to-live: 3600000       # 1 heure en ms
   # Spring AI -  Config
   ai:
     openai:
@@ -28,7 +43,6 @@ spring:
           model: gemini-3-flash-preview      # Rapide + pas cher pour les outils
           temperature: 0.1        # Réponses précises et déterministes
           max-tokens: 3000
-
 gemini:
   models:
     - gemini-3-flash-preview
@@ -38,27 +52,12 @@ gemini:
     - gemini-3.1-pro-preview
     - gemini-2.5-pro
 groq:
+
   models:
     - llama-3.3-70b-versatile
     - llama-3.1-70b-versatile
     - mixtral-8x7b-32768
     - gemma2-9b-it
-
-  # Cache Redis (optionnel en dev, activer en prod)
-  data:
-    redis:
-      ssl:
-        enabled: true
-      host: ${REDIS_HOST}
-      port: ${REDIS_PORT}
-      password: ${REDIS_PASSWORD}
-      timeout: 5000
-      connect-timeout: 5000
-
-  cache:
-    type: redis
-    redis:
-      time-to-live: 3600000       # 1 heure en ms
 
   # CORS pour Angular
   mvc:
@@ -90,4 +89,4 @@ devtoolkit:
     requests-per-minute: 60       # Par IP (implémenté via filtre)
 
 app:
-  api-url: ${API_URL}
+  api-url: ${API_URL:https://devtoolkitai.koyeb.app}

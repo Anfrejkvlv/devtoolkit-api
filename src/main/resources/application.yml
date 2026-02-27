@@ -52,6 +52,10 @@ gemini:
     - gemini-2.5-flash-lite
     - gemini-3.1-pro-preview
     - gemini-2.5-pro
+  api-keys:
+    - ${GEMINI_API_KEY}
+    - ${GEMINI_API_KEY1}
+    - ${GEMINI_API_KEY2}
 groq:
   models:
     - llama-3.3-70b-versatile
@@ -89,3 +93,5 @@ devtoolkit:
   ai:
     max-input-length: 5000        # Caractères max envoyés à l'IA
     requests-per-minute: 60       # Par IP (implémenté via filtre)
+app:
+  api-url: ${API_URL}

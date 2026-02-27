@@ -61,8 +61,8 @@ public class JwtService {
 //                .call()
 //                .content();
             String aiResponse=executor.executeForText(chatClient->
-                    chatClient.prompt()
-                            .user(prompt)
+                    chatClient.prompt(prompt)
+                            .user("User")
                             .call()
                             .chatResponse());
             log.info(aiResponse);

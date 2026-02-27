@@ -94,4 +94,8 @@ public class ModelFallbackManager {
         return false;
     }
 
+    public void resetExhaustedModels() {
+        exhaustedModels.clear();
+    }
+
 }

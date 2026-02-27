@@ -5,7 +5,6 @@ import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @ConfigurationProperties(prefix = "gemini")
@@ -13,7 +12,6 @@ import java.util.List;
 @Getter
 @Setter
 public class GeminiProperties {
-
-    List<String> models=new ArrayList<>();
-
+    private List<String> models;
+    private List<String> apiKeys;
 }
